@@ -2,3 +2,6 @@
 bin
 obj
 *.db
+appsettings.Development.json
+appsettings.json
+
