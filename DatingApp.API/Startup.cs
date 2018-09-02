@@ -42,7 +42,7 @@
                     ValidateIssuerSigningKey =true,
                     IssuerSigningKey =
                     new SymmetricSecurityKey(
-                        Encoding.ASCII.GetBytes(Configuration.GetSection("AppSetings:Token").Value)),
+                        Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                     ValidateIssuer =false,
                     ValidateAudience=false  
                 };
