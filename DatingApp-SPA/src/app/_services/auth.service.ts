@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
-import { mapToExpression } from '../../../node_modules/@angular/compiler/src/render3/view/util';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { mapToExpression } from '@angular/compiler/src/render3/view/util';
 import {map} from 'rxjs/operators';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import { environment } from '../../environments/environment';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+  'Authorization': 'Bearer ' + localStorage.getItem('token')
+  })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-baseUrl = 'http://localhost:5000/api/auth/';
+baseUrl = environment.apiUrl +  'auth/';
 jwtHelper = new JwtHelperService();
 decodedToken: any;
 
