@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FileUploader } from 'ng2-file-upload';
 import { Photo } from '../../_models/photo';
 
 @Component({
@@ -9,9 +10,18 @@ import { Photo } from '../../_models/photo';
 export class PhotoEditorComponent implements OnInit {
   @Input() photos: Photo[];
 
+ uploader: FileUploader = new FileUploader({url: URL});
+ hasBaseDropZoneOver = false;
+ hasAnotherDropZoneOver = false;
+
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+ fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
   }
 
 }
