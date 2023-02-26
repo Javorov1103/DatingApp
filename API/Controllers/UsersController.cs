@@ -1,39 +1,28 @@
-using API.Database;
-using API.Entities;
+﻿using API.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    //[Route("users")]
+    [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly DataContext _context;
-        public UsersController(DataContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+        public IEnumerable<User> Get()
         {
-            var users = await _context.Users.ToListAsync();
-
-            return users;
+            //Return a list of users.
+            //Here we have to have a service that will retrieve data from DB
+            return new List<User>() { new User() { Id = 1, Name = "Kalin", DateOfBirth = new DateTime(1991, 03, 11) } };
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<AppUser>> GetUser(int id)
+        [HttpPost]
+        public void Post([FromBody] User user)
         {
-            var user = await _context.Users.FindAsync(id);
 
-            if(user == null)
-            {
-              return BadRequest();
-            }
-
-            return user;
+           Console.WriteLine(user);
         }
+
+        
     }
 }
