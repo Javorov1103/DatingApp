@@ -18,6 +18,10 @@ namespace API.Services
 
         public LoginResponseDTO Login(LoginUserDTO model)
         {
+            //Get the user from DB
+            //User user = GET USER FROM DB()
+            // var userLoginDto = new LoginResponseDTO() { Username = user.Name, Id = user.Id };
+
             var user = new LoginResponseDTO() { Username = "Kalin", Id = 1 };
             user.Token = CreateToken(user);
 
