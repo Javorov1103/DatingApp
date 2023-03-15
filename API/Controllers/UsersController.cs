@@ -1,4 +1,5 @@
-﻿using API.Models.DB;
+﻿using API.Contracts.Services;
+using API.Models.DB;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -8,27 +9,36 @@ namespace API.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        [HttpGet]
-        [Route("")]
-        public IEnumerable<User> Get()
+        private readonly IUsersService _usersService;
+        public UsersController(IUsersService usersService)
         {
-            //Return a list of users.
-            //Here we have to have a service that will retrieve data from DB
-            return new List<User>() { new User() { Id = 1, Username = "Kalin", DateOfBirth = new DateTime(1991, 03, 11) } };
+            _usersService = usersService;
         }
+
 
         [HttpGet]
         [Route("{id:int}")]
         public User GetById(int id)
         {
-            return new User() { Id = 1, Username = "Kalin" };
+            var user = _usersService.GetUserById(id);
+            return user;
+        }
+
+        [HttpGet]
+        [Route("")]
+        public IActionResult GetUsers()
+        {
+            var users = _usersService.GetUsers();
+
+            return Ok(users);
         }
 
         [HttpPost]
-        public void Post([FromBody] User user)
+        public IActionResult Post([FromBody] User user)
         {
+            var success = _usersService.CreateUser(user);
 
-           Console.WriteLine(user);
+            return Ok(success);
         }
 
         
