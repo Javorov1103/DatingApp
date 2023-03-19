@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
-    //[Route("users")]
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
@@ -15,7 +14,7 @@ namespace API.Controllers
             _usersService = usersService;
         }
 
-
+        #region Get endpoints
         [HttpGet]
         [Route("{id:int}")]
         public User GetById(int id)
@@ -32,6 +31,8 @@ namespace API.Controllers
 
             return Ok(users);
         }
+        #endregion
+
 
         [HttpPost]
         public IActionResult Post([FromBody] User user)
@@ -41,6 +42,19 @@ namespace API.Controllers
             return Ok(success);
         }
 
+        [HttpPut("{id:int}")]
+        public IActionResult Update(int id,[FromBody] User user)
+        {
+            if (id <=0)
+            {
+                return BadRequest("Please provide valid Id");
+            }
+
+            this._usersService.UpdateUser(id,user);
+
+            return Ok();
+        }
+        
         
     }
 }

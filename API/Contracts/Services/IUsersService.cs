@@ -9,5 +9,7 @@ namespace API.Contracts.Services
         IList<User> GetUsers();
 
         bool CreateUser(User user);
+
+        void UpdateUser(int id,User user);
     }
 }

@@ -119,5 +119,32 @@ INSERT INTO [dbo].[Users]
                 return users;
             }
         }
+
+        public void UpdateUser(int id, User user)
+        {
+            user.Id = id;
+
+            using (var connection = new SqlConnection(_dbConnectionString))
+            {
+                var query = @"
+                        UPDATE [Users]
+                           SET [Username] = @Username
+                              ,[Password] = @Password
+                              ,[Gender] = @Gender
+                              ,[DateOfBirth] = @DateOfBirth
+                              ,[KnownAs] = @KnownAs
+                              ,[LastActive] = @LastActive
+                              ,[Introduction] = @Introduction
+                              ,[LookingFor] = @LookingFor
+                              ,[IsActive] = @IsActive
+                              ,[Interests] = @Interests
+                              ,[City] = @City
+                              ,[Country] = @Country
+                         WHERE Id = @Id
+                        ";
+
+                connection.Execute(query, user);
+            }
+        }
     }
 }
