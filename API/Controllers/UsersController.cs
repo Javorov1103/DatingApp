@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+  
+
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase
@@ -42,7 +44,7 @@ namespace API.Controllers
             return Ok(success);
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut("{id}")]
         public IActionResult Update(int id,[FromBody] User user)
         {
             if (id <=0)
