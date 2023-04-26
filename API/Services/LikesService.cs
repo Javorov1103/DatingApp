@@ -12,10 +12,10 @@ namespace API.Services
                 VALUES
                 (@LikerId,@LikeeId)";
 
-            using (var connection = )
-            {
+            //using (var connection = )
+            //{
 
-            }
+            //}
         }
 
         public void Delete(int likerId, int likeeId)

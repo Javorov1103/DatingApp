@@ -45,11 +45,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                    //    }
                    //};
                });
-
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
-
+app.UseCors("corsapp");
 app.UseAuthentication();
 app.UseAuthorization();
 
