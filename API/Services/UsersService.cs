@@ -8,9 +8,11 @@ namespace API.Services
     public class UsersService : IUsersService
     {
         private readonly string _dbConnectionString;
-        public UsersService(IConfiguration config)
+        private readonly IPhotosService _photosService;
+        public UsersService(IConfiguration config, IPhotosService photosService)
         {
             _dbConnectionString = config.GetConnectionString("DefaultConnection");
+            this._photosService = photosService;
         }
 
         public bool CreateUser(User user)
@@ -62,7 +64,7 @@ INSERT INTO [dbo].[Users]
             }
         }
 
-        public User GetUserById(int id)
+        public User GetUserById(int id) //bool loadPhotos = false
         {
             //Get the user from db
             using (var connection = new SqlConnection(_dbConnectionString))
@@ -87,6 +89,12 @@ INSERT INTO [dbo].[Users]
                     ";
 
                 var user = connection.QueryFirstOrDefault<User>(query, new { Id = id });
+
+                //if (loadPhotos)
+                //{
+                    user.Photos = this._photosService.GetPhotos(user.Id);
+                //}
+                
 
                 return user;
             }
