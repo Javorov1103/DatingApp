@@ -71,24 +71,26 @@ INSERT INTO [dbo].[Users]
             {
                 var query = @"
                     SELECT  [Id]
-                          ,[Username]
-                          ,[Password]
-                          ,[Gender]
-                          ,[DateOfBirth]
-                          ,[KnownAs]
-                          ,[Created]
-                          ,[LastActive]
-                          ,[Introduction]
-                          ,[LookingFor]
-                          ,[IsActive]
-                          ,[Interests]
-                          ,[City]
-                          ,[Country]
-                      FROM [Users]
-                      WHERE Id = @Id
+                    ,[Username]
+                    ,[Password]
+                    ,[Gender]
+                    ,[DateOfBirth]
+                    ,[KnownAs]
+                    ,[Created]
+                    ,[LastActive]
+                    ,[Introduction]
+                    ,[LookingFor]
+                    ,[IsActive]
+                    ,[Interests]
+                    ,[City]
+                    ,[Country]
+		            ,CASE WHEN Likes.LikeeId IS NULL THEN 'False' ELSE 'True' END as IsUserLiked
+                FROM [Users]
+	            LEFT JOIN Likes on LikerId = @UserId AND LikeeId = Users.Id
+                WHERE Id = @Id
                     ";
 
-                var user = connection.QueryFirstOrDefault<User>(query, new { Id = id });
+                var user = connection.QueryFirstOrDefault<User>(query, new { Id = id, UserId = 4 });
 
                 //if (loadPhotos)
                 //{

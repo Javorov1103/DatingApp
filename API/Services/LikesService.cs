@@ -28,7 +28,13 @@ namespace API.Services
 
         public void Delete(int likerId, int likeeId)
         {
-            throw new NotImplementedException();
+            var query = @"DELETE FROM Likes
+            WHERE LikerId = @LikerId AND LikeeId = @LikeeId";
+
+            using (var connection = new SqlConnection(_dbConnectionString))
+            {
+                connection.Execute(query, new {LikerId = likerId, LikeeId = likeeId });
+            }
         }
 
         public IList<Like> GetMyLikees(int userId)
