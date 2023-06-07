@@ -124,6 +124,7 @@ INSERT INTO [dbo].[Users]
                   FROM [Users]
                 ";
 
+                return new List<User>();
                 var users = connection.Query<User>(query).ToList();
 
                 return users;

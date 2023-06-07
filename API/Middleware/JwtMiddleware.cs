@@ -1,16 +1,10 @@
-﻿using BeautyCRM.Data.Models.DB.Identity;
-using BeautyCRM.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
+﻿using API.Contracts.Services;
+using API.Models;
+using API.Models.DB;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Principal;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BeautyCRM.Utilities
 {
@@ -25,7 +19,7 @@ namespace BeautyCRM.Utilities
             this.secret = config["TokenKey"];
         }
 
-        public async Task Invoke(HttpContext context, IIdentityService userService)
+        public async Task Invoke(HttpContext context, IUsersService userService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
@@ -35,7 +29,7 @@ namespace BeautyCRM.Utilities
             await _next(context);
         }
 
-        private void attachUserToContext(HttpContext context, IIdentityService userService, string token)
+        private void attachUserToContext(HttpContext context, IUsersService userService, string token)
         {
             try
             {
@@ -55,7 +49,7 @@ namespace BeautyCRM.Utilities
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "nameid").Value);
 
                 // attach user to context on successful jwt validation
-                User user = userService.FindUserById(userId);
+                User user = userService.GetUserById(userId);
                 context.Items["User"] = user;
 
                 Thread.CurrentPrincipal = new GenericPrincipal(new DatingAppIdentity(user), new string[] { });

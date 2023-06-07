@@ -1,10 +1,12 @@
 ﻿using API.Contracts.Services;
 using API.Models.DB;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class PhotosController : ControllerBase
     {
